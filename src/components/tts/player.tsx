@@ -26,7 +26,7 @@ export function Player({ source }: PlayerProps) {
 
   return (
     <>
-      <div className="mt-6 ">
+      <div className="mt-6 px-6 mb-6">
         {source ? (
           <AudioPlayer
             autoPlay

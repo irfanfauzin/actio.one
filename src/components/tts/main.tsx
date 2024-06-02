@@ -102,8 +102,8 @@ export default function Main() {
   };
 
   return (
-    <>
-      <Card className="md:p-4 md:m-4 border-none md:border-solid">
+    <div className="flex justify-center mt-2 md:mt-6	">
+      <Card className="w-full md:w-9/12 lg:w-7/12  md:p-4 md:m-4 border-none md:border-solid shadow-none md:shadow-lg">
         <div
           className="relative flex-col items-start gap-8 md:flex"
           x-chunk="dashboard-03-chunk-0"
@@ -184,8 +184,7 @@ export default function Main() {
                     </HoverCard>
                   </div>
                 </div>
-                <Separator className="my-4 hidden md:block" />
-                <div className="grid gap-3">
+                <div className="grid gap-3 md:mt-6 mt-0">
                   <div>
                     <div className="flex items-center justify-between space-x-2 mt-10 md:mt-0">
                       <Label
@@ -210,11 +209,11 @@ export default function Main() {
               
                 </div>
               </fieldset>
-              <div className=" pt-0 md:pt-6 px-6">
+              <div className=" pt-0 md:pt-6 px-6 -mt-4 md:mt-0">
                 <div className="md:order-2 col-span-2">
                   <div className="flex h-full flex-col justify-between mt-10 lg:mt-0">
                     <Textarea
-                      className="min-h-[100px] max-h-[200px]"
+                      className="min-h-[125px] max-h-[125px]"
                       maxLength={100}
                       placeholder="Enter your text"
                       onChange={(event) => {
@@ -254,6 +253,6 @@ export default function Main() {
         </div>
         <Player source={source} />
       </Card>
-    </>
+    </div>
   );
 }

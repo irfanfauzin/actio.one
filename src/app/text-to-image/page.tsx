@@ -1,33 +1,33 @@
 
-import Main from "@/components/tts/main";
+import MainTTI from "@/components/tti/main";
 import { Metadata } from "next";
 import LayoutDashboard from "@/components/dashboard/layout";
 
 export const metadata: Metadata = {
-  title: "Text To Speech",
-  description: "By Elevenlabs",
+  title: "Text To Image",
+  description: "By Wizmodel",
 };
 import { ModeToggle } from "@/components/mode-toggle";
 
 
-export default function TextToSpeech() {
+export default function TextToImage() {
   return (
     <LayoutDashboard>
       <header className="sticky top-0 z-10 flex h-[66px] items-center justify-between gap-1 border-b -ml-3 bg-background px-6">
-          <h1 className="text-xl font-semibold">Text To Speech</h1>
+          <h1 className="text-xl font-semibold">Text To Image</h1>
           <ModeToggle />
         </header>
-      <Main />
+      <MainTTI />
       <div className="mt-3 text-center text-sm p-4 ">
-        AI Voice Generator by{" "}
+      Stable Diffusion API by{" "}
         <a
-          href="https://elevenlabs.io/"
+          href="https://monsterapi.com/"
           className="font-medium underline underline-offset-4"
           target="_blank"
           rel="noreferrer"
         >
           {" "}
-          Elevenlabs.io
+          Monsterapi
         </a>
       </div>
     </LayoutDashboard>

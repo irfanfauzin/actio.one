@@ -88,6 +88,10 @@
         color: white;
     }
 
+    .rhap_container{
+      box-shadow: 0 0 3px 0 rgb(255 255 255 / 20%);
+    }
+
       
     }
   }
@@ -111,6 +115,8 @@
 .iconify iconify--mdi{
   display: none;
 }
+
+
 
 
   @layer base {
