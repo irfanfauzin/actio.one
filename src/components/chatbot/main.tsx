@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from "react";
-import MonsterApiClient from "monsterapi";
 import { useToast } from "@/components/ui/use-toast";
+import MonsterApiClient from "monsterapi"
 import "@/components/loader.css";
 import Image from "next/image";
 
 export default function MainChatbot() {
   const [history, setHistory] = useState([]);
   const { toast } = useToast();
-
-  const client = new MonsterApiClient(process.env.MONSTER_API_KEY);
+  // TODO Create an API to prevent exposing key
+  const client = new MonsterApiClient(process.env.NEXT_PUBLIC_MONSTER_API_KEY);
 
   const [botTyping, setBotTyping] = useState(false);
 
@@ -108,6 +108,8 @@ export default function MainChatbot() {
                       <Image
                         src="/actio.png"
                         alt="Actio One"
+                        width={40}
+                        height={40}
                         className={`w-10 h-10 rounded-full ${
                           message.from === "bot" ? "order-1" : "order-2"
                         }`}

@@ -65,7 +65,7 @@ export const Icons = {
       x="0px"
       y="0px"
       width="25"
-      height="25"
+      height="20"
       viewBox="0 0 50 50"
     >
       <path d="M 5 5 L 5 45 L 45 45 L 45 5 L 5 5 z M 7 7 L 43 7 L 43 43 L 7 43 L 7 7 z M 20 16 L 20 34 L 24 34 L 24 16 L 20 16 z M 26 16 L 26 34 L 30 34 L 30 16 L 26 16 z"></path>

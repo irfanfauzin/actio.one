@@ -16,14 +16,14 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Image from "next/image";
-import MonsterApiClient from "monsterapi";
-
+import MonsterApiClient from "monsterapi"
 import { useToast } from "@/components/ui/use-toast";
 
 export default function MainTTI() {
   const { toast } = useToast();
 
-  const client = new MonsterApiClient(process.env.MONSTER_API_KEY);
+  // TODO Create an API to prevent exposing key
+  const client = new MonsterApiClient(process.env.NEXT_PUBLIC_MONSTER_API_KEY);
 
   const [imageUrl, setImageUrl] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -309,6 +309,7 @@ export default function MainTTI() {
           {imageUrl && (
             <Image
               src={imageUrl}
+              fill
               alt="Generated Image"
               className="w-full max-h-[500px] object-contain rounded-xl pb-6"
             />
@@ -323,6 +324,22 @@ export default function MainTTI() {
           <Textarea
             onChange={(event) => {
               setPrompt(event.target.value); // Set the text value
+            }}
+            onKeyDown={(e) => {
+              if (e.key == "Enter") {
+                if (!e.shiftKey) {
+                  e.preventDefault();
+                  if (isLoad) {
+                    toast({
+                      variant: "destructive",
+                      description: "Please wait, the bot is still thinking",
+                    });
+                    return;
+                  }
+                  generate();
+
+                }
+              }
             }}
             id="message"
             placeholder="Type your prompt here..."
@@ -339,6 +356,8 @@ export default function MainTTI() {
                   e.preventDefault();
                   generate();
                 }}
+               
+
                 size="sm"
                 className="ml-auto gap-1.5"
               >

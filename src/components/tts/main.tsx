@@ -60,7 +60,8 @@ export default function MainTTS() {
     try {
       const headers = {
         Accept: "audio/mpeg",
-        "xi-api-key": process.env.XI_API_KEY,
+          // TODO Create an API to prevent exposing key
+        "xi-api-key": process.env.NEXT_PUBLIC_XI_API_KEY,
         "Content-Type": "application/json",
       };
 
