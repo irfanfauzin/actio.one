@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { GeistMono } from "geist/font/mono";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ThemeProvider } from "@/components/provider";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,9 +28,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <SpeedInsights/>
-          <Toaster />
 
+          <SpeedInsights />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

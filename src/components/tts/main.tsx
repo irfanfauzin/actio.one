@@ -3,16 +3,11 @@
 import { Models } from "./models";
 import { Player } from "./player";
 import { ReloadIcon } from "@radix-ui/react-icons";
-
 import { Card } from "@/components/ui/card";
-
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-
 import { Switch } from "@/components/ui/switch";
-
 import {
   HoverCard,
   HoverCardContent,
@@ -20,11 +15,11 @@ import {
 } from "@/components/ui/hover-card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-
-import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 
-export default function Main() {
+
+export default function MainTTS() {
   const { toast } = useToast();
 
   const [source, setSource] = useState<string>("");
@@ -32,8 +27,9 @@ export default function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [text, setText] = useState("");
+
   const [clarity, setClarity] = useState<number[]>([0.25]);
-  const [boost, setBoost] = useState<boolean>(false);
+  const [boost, setBoost] = useState<boolean>(true);
   const [stability, setStability] = useState<number[]>([0.75]);
 
   const handleLabelClick = (preview_url: string, idModel: string) => {
@@ -45,8 +41,7 @@ export default function Main() {
     if (!idModel) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Select voice model first.",
-        description: "There was a problem with your request.",
+        description: "Please select voice model first!",
       });
       return;
     }
@@ -54,8 +49,7 @@ export default function Main() {
     if (!text) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Input text first.",
-        description: "There was a problem with your request.",
+        description: "Please type your text first!",
       });
       return;
     }
@@ -66,7 +60,7 @@ export default function Main() {
     try {
       const headers = {
         Accept: "audio/mpeg",
-        "xi-api-key": process.env.REACT_APP_XI_API_KEY,
+        "xi-api-key": process.env.XI_API_KEY,
         "Content-Type": "application/json",
       };
 
@@ -198,15 +192,13 @@ export default function Main() {
                         </span>
                       </Label>
                       <Switch
-                        id="necessary"
-                        onChange={() => {
-                          setBoost((prev) => !prev);
-                          console.log(boost);
+                        defaultChecked
+                        onCheckedChange={() => {
+                          setBoost((prevBoost) => !prevBoost);
                         }}
                       />
                     </div>
                   </div>
-              
                 </div>
               </fieldset>
               <div className=" pt-0 md:pt-6 px-6 -mt-4 md:mt-0">
@@ -215,9 +207,9 @@ export default function Main() {
                     <Textarea
                       className="min-h-[125px] max-h-[125px]"
                       maxLength={100}
-                      placeholder="Enter your text"
+                      placeholder="Type your text here..."
                       onChange={(event) => {
-                        setText(event.target.value); // Set the text value
+                        setText(event.target.value);
                       }}
                     />
 

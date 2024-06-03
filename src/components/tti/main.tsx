@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-
+import Image from "next/image";
 import MonsterApiClient from "monsterapi";
 
 import { useToast } from "@/components/ui/use-toast";
@@ -23,16 +23,14 @@ import { useToast } from "@/components/ui/use-toast";
 export default function MainTTI() {
   const { toast } = useToast();
 
-  const client = new MonsterApiClient(
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjYzMTE3NWFjZDcyNjgxY2U0ZjViNDQ2YzRlZGRhM2U3IiwiY3JlYXRlZF9hdCI6IjIwMjQtMDYtMDFUMTk6MzM6NTMuNzg2MzYzIn0.3KyIUxPJ2mrV0vW12vsv-LZJ7_pDgqX6XeM7mdj7axk"
-  );
+  const client = new MonsterApiClient(process.env.MONSTER_API_KEY);
 
   const [imageUrl, setImageUrl] = useState("");
   const [prompt, setPrompt] = useState("");
   const [negPrompt, setNegPrompt] = useState("");
   const [style, setStyle] = useState();
   const [aspectRatio, setAspectRatio] = useState("landscape");
-  const [seed, setSeed] = useState(2412);
+  const [seed, setSeed] = useState(-1);
   const [steps, setSteps] = useState(10);
   const [guidanceScale, setGuidanceScale] = useState(5);
 
@@ -42,17 +40,15 @@ export default function MainTTI() {
     if (!prompt) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Input prompt first.",
-        description: "There was a problem with your request.",
+        description: "Please type your prompt first!",
       });
       return;
     }
 
-    if (prompt.length == 2) {
+    if (prompt.length < 3) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Input minimal 3 char.",
-        description: "There was a problem with your request.",
+        description: "Input prompt minimal 3 character.",
       });
       return;
     }
@@ -194,7 +190,7 @@ export default function MainTTI() {
               <Label htmlFor="temperature">Guidance Scale</Label>
               <Input
                 type="number"
-                placeholder="50"
+                placeholder="5"
                 min={5}
                 max={50}
                 onChange={(event) => {
@@ -220,7 +216,7 @@ export default function MainTTI() {
                 <Input
                   id="seed"
                   type="number"
-                  placeholder="2412"
+                  placeholder="-1"
                   onChange={(event) => {
                     setSeed(event.target.value);
                   }}
@@ -311,7 +307,7 @@ export default function MainTTI() {
           )}
           {/* Image will be rendered here */}
           {imageUrl && (
-            <img
+            <Image
               src={imageUrl}
               alt="Generated Image"
               className="w-full max-h-[500px] object-contain rounded-xl pb-6"
@@ -323,9 +319,7 @@ export default function MainTTI() {
           className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"
           x-chunk="dashboard-03-chunk-1"
         >
-          <Label htmlFor="message" className="sr-only">
-            Message
-          </Label>
+          
           <Textarea
             onChange={(event) => {
               setPrompt(event.target.value); // Set the text value

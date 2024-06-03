@@ -74,21 +74,21 @@ export default function LayoutDashboard({ children }: Props) {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href="/ollama">
+              <Link href="/chatbot">
                 <Button
                   variant="ghost"
                   size="sm"
                   className={`rounded-lg ${
-                    pathname === "/ollama" ? "bg-muted" : ""
+                    pathname === "/chatbot" ? "bg-muted" : ""
                   }`}
-                  aria-label="Ollama"
+                  aria-label="Chatbot"
                 >
                   <SquareTerminal className="size-5" />
                 </Button>
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
-              Ollama
+              Chatbot AI Assistant
             </TooltipContent>
           </Tooltip>
         </nav>

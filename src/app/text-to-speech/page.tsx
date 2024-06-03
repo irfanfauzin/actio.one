@@ -1,5 +1,5 @@
 
-import Main from "@/components/tts/main";
+import MainTTS from "@/components/tts/main";
 import { Metadata } from "next";
 import LayoutDashboard from "@/components/dashboard/layout";
 
@@ -13,11 +13,12 @@ import { ModeToggle } from "@/components/mode-toggle";
 export default function TextToSpeech() {
   return (
     <LayoutDashboard>
+       
       <header className="sticky top-0 z-10 flex h-[66px] items-center justify-between gap-1 border-b -ml-3 bg-background px-6">
           <h1 className="text-xl font-semibold">Text To Speech</h1>
           <ModeToggle />
         </header>
-      <Main />
+      <MainTTS />
       <div className="mt-3 text-center text-sm p-4 ">
         AI Voice Generator by{" "}
         <a
