@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import MonsterApiClient from "monsterapi"
+import MonsterApiClient from "monsterapi";
 import "@/components/loader.css";
 import Image from "next/image";
 
@@ -58,7 +58,6 @@ export default function MainChatbot() {
     await client
       .generateSync(requestData)
       .then((response) => {
-        console.log(response);
         setHistory((prevHistory) => [
           ...prevHistory,
           { from: "bot", text: response.text[0] },
@@ -74,7 +73,7 @@ export default function MainChatbot() {
   return (
     <div className="flex justify-center mt-2 md:mt-6	">
       <Card className="w-full md:w-9/12 lg:w-7/12  md:p-4 md:m-4 border-none md:border-solid shadow-none md:shadow-lg ">
-        <div className="flex-1 p-2 sm:p-6 justify-between flex flex-col h-[400px]">
+        <div className="flex-1  justify-between flex flex-col h-[400px]">
           <div
             id="messages"
             className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
@@ -96,12 +95,16 @@ export default function MainChatbot() {
                     >
                       <div>
                         <span
-                          className={
-                            "bg-muted px-4 py-3 rounded-xl inline-block"
-                          }
+                          className="bg-muted px-4 py-3 rounded-xl inline-block"
                           ref={scrollRef}
-                          dangerouslySetInnerHTML={{ __html: message.text }}
-                        ></span>
+                        >
+                          <pre
+                            className="inline-block"
+                            style={{ whiteSpace: "pre-wrap" }}
+                          >
+                            {message.text.replace(/```/g, "\n\n")}
+                          </pre>
+                        </span>
                       </div>
                     </div>
                     {message.from === "bot" && (

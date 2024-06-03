@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import LayoutDashboard from "@/components/dashboard/layout";
 
 export const metadata: Metadata = {
-  title: "Chatbot",
+  title: "Text To Image",
   description: "By Monsterapi",
 };
 import { ModeToggle } from "@/components/mode-toggle";
