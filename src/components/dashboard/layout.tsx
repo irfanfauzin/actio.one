@@ -1,4 +1,5 @@
 "use client";
+
 import {
   AudioLines,
   Info,
@@ -114,9 +115,7 @@ export default function LayoutDashboard({ children }: Props) {
           </Tooltip>
         </nav>
       </aside>
-      <div className="flex flex-col">
-        {children}
-      </div>
+      <div className="flex flex-col -ml-4 md:ml-0">{children}</div>
     </div>
   );
 }

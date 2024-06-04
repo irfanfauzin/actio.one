@@ -3,13 +3,52 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, createElement } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import MonsterApiClient from "monsterapi";
 import "@/components/loader.css";
 import Image from "next/image";
+
+import { CopyBlock, googlecode } from "react-code-blocks";
+
+function renderCodeBlocks(text) {
+  const codeBlockRegex = /```(.*?)\n(.*?)\n```/gs;
+  let result = [];
+  let lastIndex = 0;
+
+  text.replace(codeBlockRegex, (match, language, code, index) => {
+    // Append the text before the code block
+    result.push(text.slice(lastIndex, index));
+
+    // Append <br> before the code block
+    result.push(<br key={`br-before1-${index}`} />);
+    result.push(<br key={`br-before2-${index}`} />);
+
+    // Append the CopyBlock component with static props
+    result.push(
+      createElement(CopyBlock, {
+        text: code,
+        language,
+        theme: googlecode,
+        wrapLines: true,
+        showLineNumbers: true,
+      })
+    );
+    // Append two <br> after the code block
+    result.push(<br key={`br-after1-${index}`} />);
+    result.push(<br key={`br-after2-${index}`} />);
+
+    // Update the lastIndex
+    lastIndex = index + match.length;
+  });
+
+  // Append the remaining text after the last code block
+  result.push(text.slice(lastIndex));
+
+  return result;
+}
 
 export default function MainChatbot() {
   const [history, setHistory] = useState([]);
@@ -51,6 +90,7 @@ export default function MainChatbot() {
     const requestData = {
       messages: [{ role: "user", content: prompt }],
       model: "mistralai/Mistral-7B-Instruct-v0.2",
+      max_tokens: 2000,
     };
 
     setPrompt("");
@@ -58,10 +98,20 @@ export default function MainChatbot() {
     await client
       .generateSync(requestData)
       .then((response) => {
+        console.log(response);
+        const text = response.text[0] || "";
         setHistory((prevHistory) => [
           ...prevHistory,
-          { from: "bot", text: response.text[0] },
+          { from: "bot", text: text },
         ]);
+
+        if (Array.isArray(text) && text.length > 0) {
+          const messages = text.map((msg, index) => ({
+            from: "bot",
+            text: msg + " " + (index + 1),
+          }));
+          setHistory((prevHistory) => [...prevHistory, ...messages]);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -76,51 +126,36 @@ export default function MainChatbot() {
         <div className="flex-1  justify-between flex flex-col h-[400px]">
           <div
             id="messages"
-            className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+            className="flex flex-col space-y-4 p-3 md:pl-0 ml-3 md:ml-0 overflow-y-auto  scrolling-touch"
           >
             <ScrollArea>
               {history.map((message, key) => (
                 <div key={key}>
                   <div
-                    className={`flex items-end mt-6 ${
+                    className={`flex mt-6 ${
                       message.from === "bot" ? "" : "justify-end"
                     }`}
                   >
                     <div
-                      className={`flex-col space-y-2 text-sm inline-block leading-tight max-w-lg  mr-4 ${
+                      className={`flex-col space-y-2 text-sm inline-block leading-tight rounded-xl  mr-4 ${
                         message.from === "bot"
-                          ? "order-2 items-start"
-                          : "order-1 items-end"
+                          ? "order-2 items-start w-full bg-muted "
+                          : "order-1 items-end bg-red-100 dark:text-black"
                       }`}
                     >
                       <div>
                         <span
-                          className="bg-muted px-4 py-3 rounded-xl inline-block"
+                          className=" px-4 py-3  inline-block w-full"
                           ref={scrollRef}
                         >
-                          <pre
-                            className="inline-block"
-                            style={{ whiteSpace: "pre-wrap" }}
-                          >
-                            {message.text.replace(/```/g, "\n\n")}
-                          </pre>
+                          {renderCodeBlocks(message.text)}
                         </span>
                       </div>
                     </div>
-                    {message.from === "bot" && (
-                      <Image
-                        src="/actio.png"
-                        alt="Actio One"
-                        width={40}
-                        height={40}
-                        className={`w-10 h-10 rounded-full ${
-                          message.from === "bot" ? "order-1" : "order-2"
-                        }`}
-                      />
-                    )}
                   </div>
                 </div>
               ))}
+              <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
         </div>
